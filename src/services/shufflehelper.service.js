@@ -47,11 +47,8 @@
                             for(var j = 0; j < fixedIndices.length; j++) {
                                 // Pick a remaining element…
                                 i = Math.floor(Math.random() * m);
-                                console.log('printing... i');
-                                console.log(i);
                                 if (i === fixedIndices[j]) {
                                     isCurrentIndexFixedIndex = j;
-                                    console.log('found match');
                                     break;
                                 }
                             }
