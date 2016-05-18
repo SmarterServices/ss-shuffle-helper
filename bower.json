@@ -1,0 +1,20 @@
+{
+  "name": "shuffle-helper",
+  "version": "0.0.1",
+  "authors": [
+    "sasharlemin <sajid@smarterservices.com>"
+  ],
+  "description": "shuffle functions will be included that are needed across projects",
+  "main": "",
+  "keywords": [
+    "shuffle"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "angular": "^1.5.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.5"
+  }
+}
