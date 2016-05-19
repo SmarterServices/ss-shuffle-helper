@@ -1,11 +1,14 @@
 {
   "name": "shuffle-helper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "authors": [
     "sasharlemin <sajid@smarterservices.com>"
   ],
   "description": "shuffle functions will be included that are needed across projects",
-  "main": "",
+  "main": [
+    "./src/ss.shuffle.module.js",
+    "./src/services/shufflehelper.service.js"
+  ],
   "keywords": [
     "shuffle"
   ],
