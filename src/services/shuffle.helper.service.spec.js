@@ -6,8 +6,9 @@ describe('shuffleHelper', function() {
         shuffleHelperService = _shuffleHelper_;
     }));
     var shuffleHelperService;
-    var indexArray = [1,2,3,4,5];
+    var indexArray = [1,2,3,4,5,6,7,8];
     var shuffledArray;
+    var selectedArray;
     describe('when i shuffle an array', function() {
 
         it('should shuffle the array', function() {
@@ -25,4 +26,25 @@ describe('shuffleHelper', function() {
         });
 
     });
+
+    describe('when i select randomly from an array', function() {
+
+        var numSelect = 2;
+
+        it('it should shuffle the array', function() {
+            selectedArray = shuffleHelperService.randomSelect(angular.copy(indexArray), numSelect);
+            expect(selectedArray.toString()).not.toBe(indexArray.toString());
+        });
+
+        it('should select exact number of elements', function() {
+            var numSelect = 2;
+
+            selectedArray = shuffleHelperService.randomSelect(angular.copy(indexArray), numSelect);
+            expect(selectedArray.length).toEqual(numSelect);
+
+        });
+
+    });
+
+
 });

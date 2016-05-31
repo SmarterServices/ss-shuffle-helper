@@ -7,7 +7,8 @@
 
         var service = {
             shuffleWithFixedItems: shuffleWithFixedItems,
-            shuffle : shuffle
+            shuffle : shuffle,
+            randomSelect : randomSelect,
         };
         return service;
 
@@ -68,11 +69,15 @@
                 }
             }
             return array;
-
         };
 
         function shuffle(array) {
             return shuffleWithFixedItems(array, []);
+        }
+
+        function randomSelect(array, numSelect) {
+            var result = shuffleWithFixedItems(array, []).splice(0, numSelect);
+            return result;
         }
     }
 })();
