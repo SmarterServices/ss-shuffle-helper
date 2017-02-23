@@ -17,7 +17,6 @@ module.exports = function(config) {
     files: [
       './bower_components/angular/angular.js',
       './bower_components/angular-mocks/angular-mocks.js',
-      './bower_components/lodash/lodash.js',
       './src/**/*.module.js',
       './src/**/*.js',
       './src/**/*.spec.js'
@@ -34,14 +33,16 @@ module.exports = function(config) {
     preprocessors: {
     },
 
-    plugins:[
+    plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
+      'karma-spec-reporter'
     ],
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['spec'],
 
 
     // web server port
@@ -74,4 +75,4 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity
   })
-}
+};

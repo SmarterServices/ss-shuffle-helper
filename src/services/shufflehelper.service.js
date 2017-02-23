@@ -1,83 +1,78 @@
-(function() {
-    'use strict';
-    angular.module('ss.shuffle')
-        .service('shuffleHelper', shuffleHelper);
+(function () {
+  'use strict';
+  angular.module('ss.shuffle')
+    .service('shuffleHelper', shuffleHelper);
 
-    function shuffleHelper() {
+  function shuffleHelper() {
 
-        var service = {
-            shuffleWithFixedItems: shuffleWithFixedItems,
-            shuffle : shuffle,
-            randomSelect : randomSelect,
-        };
-        return service;
+    var service = {
+      shuffleWithFixedItems: shuffleWithFixedItems,
+      shuffle: shuffle,
+      randomSelect: randomSelect
+    };
+    return service;
 
-        function shuffleWithFixedItems(array, fixedIndices) {
+    function shuffleWithFixedItems(array, fixedIndices) {
+      var arrayLength = array.length,
+        maxRandomGenerationCount = 50,
+        currentIndex,
+        isCurrentIndexFixed,
+        randomIndex,
+        randomGenerationCount,
+        isRandomIndexFixed,
+        tempItem;
 
-            var m = array.length, t, i;
-            var fixedIndexRemaining = fixedIndices.length;
-            var isCurrentIndexFixedIndex = -1;
-            var maxRandomGeneration = 50;
+      // loop for each item in the array and try to find another index to replace with this index item
+      for (currentIndex = 0; currentIndex < arrayLength; currentIndex++) {
 
-            // While there remain elements to shuffle…
-            while (m) {
+        isCurrentIndexFixed = false;
 
-                //find if m in fixedIndices
-                isCurrentIndexFixedIndex = -1;
-                var tempM = m;
-                tempM--;
-                if (fixedIndexRemaining) {
-                    for(var j = 0; j < fixedIndices.length; j++) {
-                        if (tempM === fixedIndices[j]) {
-                            isCurrentIndexFixedIndex = j;
-                            break;
-                        }
-                    }
-                    //isCurrentIndexFixedIndex = lodash.indexOf(fixedIndices, m);
-                    //fixedIndexRemaining--;
-                }
-                //if true
-                if (!isCurrentIndexFixedIndex) {
-                    fixedIndexRemaining--;
-                    m--;
-                } else {
-                    isCurrentIndexFixedIndex = -1;
-                    maxRandomGeneration = 50;
-                    if (fixedIndices.length > 0) {
-                        while(maxRandomGeneration-- && isCurrentIndexFixedIndex === -1) {
-                            for(var j = 0; j < fixedIndices.length; j++) {
-                                // Pick a remaining element…
-                                i = Math.floor(Math.random() * m);
-                                if (i === fixedIndices[j]) {
-                                    isCurrentIndexFixedIndex = j;
-                                    break;
-                                }
-                            }
-                        }
-                        //isCurrentIndexFixedIndex = lodash.indexOf(fixedIndices, m);
-                        //fixedIndexRemaining--;
-                    } else {
-                        i = Math.floor(Math.random() * m);
-                    }
-                    m--;
-                    // And swap it with the current element.
-                    if (isCurrentIndexFixedIndex === -1) {
-                        t = array[m];
-                        array[m] = array[i];
-                        array[i] = t;
-                    }
-                }
+        if (fixedIndices && Array.isArray(fixedIndices) && fixedIndices.length > 0) {
+          isCurrentIndexFixed = fixedIndices.some(function (fixedIndexItem) {
+            return fixedIndexItem === currentIndex;
+          });
+        }
+
+        if (!isCurrentIndexFixed) {
+          randomGenerationCount = maxRandomGenerationCount;
+
+          // only repeat for a maximum of 50 times in case of no new index is found.
+          // Otherwise in some cases it will fall in a while loop
+          while (randomGenerationCount-- > 0) {
+
+            // create a random index
+            randomIndex = Math.floor((Math.random() * arrayLength));
+
+            // check whether the generated random index is fixed
+            isRandomIndexFixed = fixedIndices.some(function (fixedIndexItem) {
+              return fixedIndexItem === randomIndex;
+            });
+
+            // if the random index is not the current index and
+            // the random index is not a fixed index, then use it for swapping
+            if (randomIndex !== currentIndex && !isRandomIndexFixed) {
+
+              // we found a new index to swap with currentIndex
+              tempItem = array[currentIndex];
+              array[currentIndex] = array[randomIndex];
+              array[randomIndex] = tempItem;
+
+              break;
             }
-            return array;
-        };
-
-        function shuffle(array) {
-            return shuffleWithFixedItems(array, []);
+          }
         }
+      }
 
-        function randomSelect(array, numSelect) {
-            var result = shuffleWithFixedItems(array, []).splice(0, numSelect);
-            return result;
-        }
+      return array;
     }
+
+    function shuffle(array) {
+      return shuffleWithFixedItems(array, []);
+    }
+
+    function randomSelect(array, numSelect) {
+      var result = shuffleWithFixedItems(array, []).splice(0, numSelect);
+      return result;
+    }
+  }
 })();
